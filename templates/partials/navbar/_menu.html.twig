@@ -1,0 +1,38 @@
+{% set default = "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" %}
+{% set current = "border-indigo-500 text-gray-900" %}
+{% set base = "inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %}
+<div class="flex">
+    <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
+        <a
+           x-data="{ isCurrent: '{{ route == 'app_index' }}' }"
+           href="{{ path('app_index') }}"
+           :class="{ '{{ current }}': isCurrent, '{{ default }}': !isCurrent }"
+           class="{{ base }}"
+           :aria-current="isCurrent ? 'page' : false"
+        >
+            Accueil
+        </a>
+        {% if is_granted('ROLE_USER') %}
+            <a
+                x-data="{ isCurrent: '{{ route == 'app_dashboard' }}' }"
+                href="{{ path('app_dashboard') }}"
+                :class="{ '{{ current }}': isCurrent, '{{ default }}': !isCurrent }"
+                class="{{ base }}"
+                :aria-current="isCurrent ? 'page' : false"
+            >
+                Dashboard
+            </a>
+        {% endif %}
+        {% if not is_granted('IS_AUTHENTICATED') %}
+            <a
+                    x-data="{ isCurrent: '{{ route == 'app_login' }}' }"
+                    href="{{ path('app_login') }}"
+                    :class="{ '{{ current }}': isCurrent, '{{ default }}': !isCurrent }"
+                    class="{{ base }}"
+                    :aria-current="isCurrent ? 'page' : false"
+            >
+                Se connecter
+            </a>
+        {% endif %}
+    </div>
+</div>
